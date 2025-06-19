@@ -26,4 +26,18 @@ public class PersonaController {
         model.addAttribute("personas", personaService.getAllPersonas());
         return "personas";
     }
+ /* @GetMapping
+  public String getAllPersonas (Model model) {
+      List<Persona> personas = personaService.getAllPersonas();
+      // --- INICIO: Añade estas líneas para depuración ---
+      System.out.println("DEBUG: PersonaController - Recuperadas " + personas.size() + " personas.");
+      if (!personas.isEmpty()) {
+          personas.forEach(p -> System.out.println("DEBUG: PersonaController - Persona: ID=" + p.getId() + ", Nombre=" + p.getNombre() + " " + p.getApellidos()));
+      } else {
+          System.out.println("DEBUG: PersonaController - La lista de personas está vacía.");
+      }
+      // --- FIN: Líneas de depuración ---
+      model.addAttribute("personas", personas);
+      return "personas";
+  }*/
 }

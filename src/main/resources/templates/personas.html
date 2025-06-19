@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title>Reuniones | Listado</title>
@@ -12,5 +12,8 @@
     <span th:text="${persona.apellidos}">Asunto</span>
   </li>
 </ul>
+<form method="POST" th:action="@{/logout}">
+  <button type="submit">Logout</button>
+</form>
 </body>
 </html>
