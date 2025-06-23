@@ -2,25 +2,108 @@
 <html lang="es" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
-    <title>Acceso a las reuniones</title>
+    <title>Acceso a las Reuniones</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        h1 {
+            color: #4a676c;
+            margin-bottom: 25px;
+            font-size: 1.8em;
+        }
+        .message {
+            margin-bottom: 20px;
+            padding: 12px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .message.error {
+            background-color: #ffe0e0;
+            color: #cc0000;
+            border: 1px solid #cc0000;
+        }
+        .message.logout {
+            background-color: #e0ffe0;
+            color: #008000;
+            border: 1px solid #008000;
+        }
+        form div {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box; /* Para que el padding no aumente el ancho */
+        }
+        input[type="submit"] {
+            background-color: #6a9c80;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            margin-top: 15px;
+        }
+        input[type="submit"]:hover {
+            background-color: #5b8770;
+        }
+    </style>
 </head>
 <body>
-<div th:if="${param.error}">
-    Usuario o contraseña incorrectos.
+<div class="container">
+    <h1>Acceso a las Reuniones</h1>
+
+    <div th:if="${param.error}" class="message error">
+        Usuario o contraseña incorrectos.
+    </div>
+    <div th:if="${param.logout}" class="message logout">
+        Has salido de la cuenta.
+    </div>
+
+    <form th:action="@{/login}" method="post">
+        <div>
+            <label for="username">Usuario:</label>
+            <input type="text" id="username" name="username" placeholder="Introduce tu usuario"/>
+        </div>
+        <div>
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" placeholder="Introduce tu contraseña"/>
+        </div>
+        <div>
+            <input type="submit" value="Entrar"/>
+        </div>
+    </form>
 </div>
-<div th:if="${param.logout}">
-    Has salido de la cuenta.
-</div>
-<form th:action="@{/login}" method="post">
-    <div>
-        <label>Usuario: <input type="text" name="username"/></label>
-    </div>
-    <div>
-        <label>Contraseña: <input type="password" name="password"/></label>
-    </div>
-    <div>
-        <input type="submit" value="Entrar"/>
-    </div>
-</form>
 </body>
 </html>

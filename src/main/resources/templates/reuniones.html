@@ -2,24 +2,133 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Reuniones | Listado</title>
+    <title>Reuniones | Listado de Reuniones</title>
+    <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f7f6;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 30px;
+      color: #333;
+      box-sizing: border-box;
+    }
+    .container {
+      background-color: #ffffff;
+      padding: 30px 40px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 700px; /* Un poco más ancho para las reuniones con asistentes */
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    h1 {
+      color: #4a676c;
+      margin-bottom: 25px;
+      font-size: 2em;
+    }
+    ul {
+      list-style: none; /* Elimina los puntos de la lista principal */
+      padding: 0;
+      margin: 0;
+      text-align: left; /* Alinea el contenido de las reuniones a la izquierda */
+    }
+    /* Estilos para cada elemento de reunión (li dentro de ul) */
+    ul > li {
+      background-color: #f9f9f9;
+      border: 1px solid #eee;
+      border-radius: 5px;
+      padding: 15px 20px;
+      margin-bottom: 15px;
+      font-size: 1.1em;
+      color: #555;
+    }
+    ul > li:last-child {
+      margin-bottom: 0;
+    }
+    .reunion-header {
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 10px;
+      display: block; /* Para que ocupen su propia línea si es necesario */
+    }
+    .reunion-date {
+        font-size: 0.9em;
+        color: #777;
+        margin-left: 5px; /* Pequeño espacio para la fecha */
+    }
+
+    /* Estilos para la lista de asistentes (ol dentro de li) */
+    ol {
+      list-style: decimal; /* Vuelve a poner números para los asistentes */
+      padding-left: 30px; /* Indentación para la lista de asistentes */
+      margin-top: 10px;
+      margin-bottom: 0; /* Elimina margen inferior extra */
+    }
+    ol > li {
+      background-color: #ffffff; /* Fondo blanco para asistentes */
+      border: 1px solid #e0e0e0; /* Borde más sutil para asistentes */
+      border-radius: 3px;
+      padding: 8px 12px;
+      margin-bottom: 8px;
+      font-size: 0.95em;
+      color: #666;
+    }
+    ol > li:last-child {
+      margin-bottom: 0;
+    }
+    .no-reunions, .no-attendees {
+        color: #777;
+        font-style: italic;
+        margin-top: 10px;
+    }
+    /* Estilos para el botón de logout */
+    button[type="submit"] {
+      background-color: #d9534f; /* Color rojo para logout */
+      color: white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background-color 0.3s ease;
+      margin-top: 20px;
+    }
+    button[type="submit"]:hover {
+      background-color: #c9302c;
+    }
+  </style>
 </head>
 <body>
-  <h1>Listado de reuniones</h1>
-  <ul>
-    <li th:each="reunion:${reuniones}">
-       <span th:text="${reunion.asunto}">Asunto</span>
-        (<span th:text="${#temporals.format(reunion.fecha, 'dd-MMM-yyyy')}">Fecha</span>)
-         <ol>
-             <li th:each="persona:${reunion.asistentes}">
-                 <span th:text="${persona.nombre}">Asunto</span>
-                 <span th:text="${persona.apellidos}">Asunto</span>
-             </li>
-         </ol>
-     </li>
-   </ul>
-  <form method="POST" th:action="@{/logout}">
-      <button type="submit">Logout</button>
-  </form>
+<div class="container">
+    <h1>Listado de Reuniones</h1>
+
+    <ul th:if="${!#lists.isEmpty(reuniones)}">
+        <li th:each="reunion:${reuniones}">
+            <span class="reunion-header" th:text="${reunion.asunto}">Asunto de la Reunión</span>
+            <span class="reunion-date"> (<span th:text="${#temporals.format(reunion.fecha, 'dd-MMM-yyyy')}">Fecha</span>)</span>
+
+            <div th:if="${!#lists.isEmpty(reunion.asistentes)}">
+                <p style="margin-top: 15px; margin-bottom: 8px; font-weight: bold; color: #4a676c;">Asistentes:</p>
+                <ol>
+                    <li th:each="persona:${reunion.asistentes}">
+                        <span th:text="${persona.nombre}">Nombre del Asistente</span>
+                        <span th:text="${persona.apellidos}">Apellidos del Asistente</span>
+                    </li>
+                </ol>
+            </div>
+            <p th:if="${#lists.isEmpty(reunion.asistentes)}" class="no-attendees">No hay asistentes registrados para esta reunión.</p>
+        </li>
+    </ul>
+    <p th:if="${#lists.isEmpty(reuniones)}" class="no-reunions">No hay reuniones registradas.</p>
+</div>
+
+<form method="POST" th:action="@{/logout}">
+    <button type="submit">Cerrar Sesión</button>
+</form>
 </body>
- </html>
+</html>
